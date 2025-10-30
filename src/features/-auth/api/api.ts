@@ -8,20 +8,17 @@ export async function signInUser({
   password: string;
 }) {
   // TODO: refactor whole fetch using axios
-  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/login`, {
-    method: "POST",
-    headers: { "Content-type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ email, password }),
-  });
 
-  const data = await res.json();
+  const res = await api.post(
+    "/users/login",
+    {
+      email,
+      password,
+    },
+    { withCredentials: true }
+  );
 
-  if (!res.ok) {
-    throw new Error(data.error || "Invalid Credentials");
-  }
-
-  return data.user;
+  return res.data;
 }
 
 export async function logoutUser() {
