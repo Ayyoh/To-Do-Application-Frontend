@@ -33,6 +33,8 @@ const colors = {
   },
 
   buttons: {
+    buttonBlack: "text-[#231B1B]",
+
     createAccount: "bg-[#E5E5E5]",
     googleSignUp: "bg-[#212121]",
   },
@@ -123,7 +125,7 @@ export function SignInForm({
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className={colors.buttons.createAccount}
+                  className={clsx("", colors.buttons.buttonBlack, colors.buttons.createAccount)}
                 >
                   {isPending ? "Logging in..." : "Login"}
                 </Button>

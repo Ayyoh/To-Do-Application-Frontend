@@ -27,9 +27,9 @@ function App() {
   return (
     <div className="p-3 flex flex-col gap-4">
       <div className={clsx("text-center", colors.mainText)}>
-        <h1>Organize your tasks with folders and priorities</h1>
-
-        <button onClick={() => logoutMutation.mutate()}>{logoutMutation.isPending ? "Logging Out" : "Logout"}</button>
+        <button onClick={() => logoutMutation.mutate()}>
+          {logoutMutation.isPending ? "Logging Out" : "Logout"}
+        </button>
       </div>
     </div>
   );

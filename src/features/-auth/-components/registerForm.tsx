@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Link } from "@tanstack/react-router";
+import { useRegisterMutation } from "@/hooks/useMutation/useRegisterMutation";
+import toast from "react-hot-toast";
 
 const colors = {
   border: "border-[#212123]",
@@ -30,12 +32,22 @@ const colors = {
   },
 
   buttons: {
+    buttonBlack: "text-[#231B1B]",
+
     createAccount: "bg-[#E5E5E5]",
     googleSignUp: "bg-[#212121]",
-  }
+  },
 };
 
 function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
+  const { mutate, isPending, error } = useRegisterMutation();
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    mutate(form);
+  }
+
   return (
     <Card {...props} className={clsx("", colors.border, colors.mainBG)}>
       <CardHeader>
@@ -45,11 +57,11 @@ function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        <form onSubmit={handleSubmit}>
           <FieldGroup>
             <Field>
-              <FieldLabel htmlFor="name" className="text-white">
-                Full Name
+              <FieldLabel htmlFor="username" className="text-white">
+                Username
               </FieldLabel>
               <Input
                 className={clsx(
@@ -58,9 +70,11 @@ function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
                   colors.input.inputBorder,
                   colors.mainText
                 )}
-                id="name"
+                id="username"
                 type="text"
                 placeholder="John Doe"
+                value={form.username}
+                onChange={(e) => setForm({ ...form, username: e.target.value })}
                 required
               />
             </Field>
@@ -79,6 +93,8 @@ function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
                 id="email"
                 type="email"
                 placeholder="m@example.com"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
                 required
               />
               <FieldDescription className={colors.mainText}>
@@ -101,6 +117,8 @@ function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
                 id="password"
                 type="password"
                 placeholder="********"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
                 required
               />
               <FieldDescription className={colors.mainText}>
@@ -108,33 +126,34 @@ function RegisterForm({ ...props }: React.ComponentProps<typeof Card>) {
               </FieldDescription>
             </Field>
 
-            <Field>
-              <FieldLabel htmlFor="confirm-password" className="text-white">
-                Confirm Password
-              </FieldLabel>
-              <Input
-                className={clsx(
-                  "rounded-lg",
-                  colors.input.inputBG,
-                  colors.input.inputBorder,
-                  colors.mainText
-                )}
-                id="confirm-password"
-                type="password"
-                placeholder="********"
-                required
-              />
-              <FieldDescription className="text-white">Please confirm your password.</FieldDescription>
-            </Field>
-
             <FieldGroup>
               <Field>
-                <Button type="submit" className={clsx("text-sm", colors.buttons.createAccount)}>Create Account</Button>
-                <Button variant="ghost" type="button" className={clsx("text-white text-sm", colors.buttons.googleSignUp)}>
+                <Button
+                  type="submit"
+                  className={clsx(
+                    "text-sm",
+                    colors.buttons.buttonBlack,
+                    colors.buttons.createAccount
+                  )}
+                >
+                  {isPending ? "Creating..." : "Create Account"}
+                </Button>
+                <Button
+                  variant="ghost"
+                  type="button"
+                  className={clsx(
+                    "text-white text-sm",
+                    colors.buttons.googleSignUp
+                  )}
+                >
                   Sign up with Google
                 </Button>
-                <FieldDescription className={clsx("px-6 text-center", colors.mainText)}>
-                  Already have an account? <Link to="/auth/signIn">Sign In</Link>
+
+                <FieldDescription
+                  className={clsx("px-6 text-center", colors.mainText)}
+                >
+                  Already have an account?{" "}
+                  <Link to="/auth/signIn">Sign In</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
