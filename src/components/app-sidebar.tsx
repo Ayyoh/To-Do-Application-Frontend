@@ -18,141 +18,16 @@ import { ModeToggle } from "./mode-toggle";
 import { Folder } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLogoutMutation } from "@/hooks/useMutation/useLogoutMutation";
+import { useGetFoldersQuery } from "@/hooks/useQuery/useFoldersQuery";
+import { Link } from "@tanstack/react-router";
+
+import { Route as FolderRoute } from "@/routes/folders/$folderId";
 
 // This is sample data.
-const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-  navMain: [
-    {
-      title: "Getting Started",
-      url: "#",
-      items: [
-        {
-          title: "Installation",
-          url: "#",
-        },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Building Your Application",
-      url: "#",
-      items: [
-        {
-          title: "Routing",
-          url: "#",
-        },
-        {
-          title: "Data Fetching",
-          url: "#",
-          isActive: true,
-        },
-        {
-          title: "Rendering",
-          url: "#",
-        },
-        {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "API Reference",
-      url: "#",
-      items: [
-        {
-          title: "Components",
-          url: "#",
-        },
-        {
-          title: "File Conventions",
-          url: "#",
-        },
-        {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#",
-        },
-        {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
-    },
-  ],
-};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const logoutMutation = useLogoutMutation();
+  const { data: folders } = useGetFoldersQuery();
 
   const [active, setActive] = React.useState(false);
 
@@ -172,13 +47,28 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         >
           <Folder size={16} />
 
-          <h1 className="font-quicksand font-semibold">All Tasks</h1>
+          <Link to="/">
+            <h1 className="font-quicksand font-semibold">All Tasks</h1>
+          </Link>
         </div>
 
         <SidebarGroupContent className="">
           <SidebarGroupLabel className="text-sm font-quicksand font-semibold">
             Folders
           </SidebarGroupLabel>
+          {!folders ? (
+            <p className="text-xs text-gray-500">Loading folders...</p>
+          ) : folders.length === 0 ? (
+            <p className="text-xs text-gray-500">No folders found</p>
+          ) : (
+            folders.map((folder: any) => (
+              <div key={folder.id} className="ml-2 py-1">
+                <Link to={FolderRoute.to} params={{ folderId: folder.id }}>
+                  <span>{folder.folderName}</span>
+                </Link>
+              </div>
+            ))
+          )}{" "}
         </SidebarGroupContent>
 
         <SidebarGroupContent className="">

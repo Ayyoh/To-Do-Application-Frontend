@@ -27,15 +27,13 @@ function App() {
   const logoutMutation = useLogoutMutation();
 
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="p-3 flex flex-col gap-4">
-        <TodoPage />
-        <div className={clsx("text-center", colors.mainText)}>
-          {/* <button onClick={() => logoutMutation.mutate()}>
+    <div className="p-3 flex flex-col gap-4">
+      <TodoPage />
+      <div className={clsx("text-center", colors.mainText)}>
+        {/* <button onClick={() => logoutMutation.mutate()}>
           {logoutMutation.isPending ? "Logging Out" : "Logout"}
           </button> */}
-        </div>
       </div>
-    </ThemeProvider>
+    </div>
   );
 }

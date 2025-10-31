@@ -14,8 +14,13 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { useGetFoldersQuery } from "@/hooks/useQuery/useFoldersQuery";
 import { Trash2 } from "lucide-react";
-import { useState } from "react";
+
+import { Route as FolderRoute } from "@/routes/folders/$folderId";
+import { useQuery } from "@tanstack/react-query";
+import { getAllFolders } from "../../api/foldersApi";
+import { useParams } from "@tanstack/react-router";
 
 const mockData = [
   {
@@ -26,8 +31,11 @@ const mockData = [
   },
 ];
 
-export default function TodoPage() {
-  const [completed, setCompleted] = useState(0)
+function Header() {
+  const { folderId } = useParams({ from: FolderRoute.id });
+  const { data: folders } = useGetFoldersQuery();
+
+  const folder = folders?.find((f: any) => f.id === Number(folderId));
 
   return (
     <SidebarProvider>
@@ -42,14 +50,12 @@ export default function TodoPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">
-                  Create your tasks
-                </BreadcrumbLink>
+                <BreadcrumbLink href="#">Create your tasks</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
                 <BreadcrumbPage className="font-quicksand font-bold">
-                  All Tasks
+                  {folder?.folderName ?? "Folder"}
                 </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
@@ -57,7 +63,6 @@ export default function TodoPage() {
         </header>
 
         <div className="flex flex-1 flex-col gap-4 p-4">
-          <Progress value={completed} />
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             {mockData.map((data, i) => (
               <div
@@ -83,3 +88,5 @@ export default function TodoPage() {
     </SidebarProvider>
   );
 }
+
+export default Header;

@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FoldersFolderIdRouteImport } from './routes/folders/$folderId'
 import { Route as AuthSignInRouteImport } from './routes/auth/signIn'
 import { Route as AuthRegisterRouteImport } from './routes/auth/register'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FoldersFolderIdRoute = FoldersFolderIdRouteImport.update({
+  id: '/folders/$folderId',
+  path: '/folders/$folderId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthSignInRoute = AuthSignInRouteImport.update({
@@ -33,30 +39,39 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/signIn': typeof AuthSignInRoute
+  '/folders/$folderId': typeof FoldersFolderIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/signIn': typeof AuthSignInRoute
+  '/folders/$folderId': typeof FoldersFolderIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth/register': typeof AuthRegisterRoute
   '/auth/signIn': typeof AuthSignInRoute
+  '/folders/$folderId': typeof FoldersFolderIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth/register' | '/auth/signIn'
+  fullPaths: '/' | '/auth/register' | '/auth/signIn' | '/folders/$folderId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/register' | '/auth/signIn'
-  id: '__root__' | '/' | '/auth/register' | '/auth/signIn'
+  to: '/' | '/auth/register' | '/auth/signIn' | '/folders/$folderId'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth/register'
+    | '/auth/signIn'
+    | '/folders/$folderId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
   AuthSignInRoute: typeof AuthSignInRoute
+  FoldersFolderIdRoute: typeof FoldersFolderIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -66,6 +81,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/folders/$folderId': {
+      id: '/folders/$folderId'
+      path: '/folders/$folderId'
+      fullPath: '/folders/$folderId'
+      preLoaderRoute: typeof FoldersFolderIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/signIn': {
@@ -89,6 +111,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRegisterRoute: AuthRegisterRoute,
   AuthSignInRoute: AuthSignInRoute,
+  FoldersFolderIdRoute: FoldersFolderIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
