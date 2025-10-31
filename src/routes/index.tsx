@@ -3,6 +3,8 @@ import "../App.css";
 import clsx from "clsx";
 import { CheckAuth } from "@/lib/checkAuth";
 import { useLogoutMutation } from "@/hooks/useMutation/useLogoutMutation";
+import TodoPage from "@/features/-todo/-components/todoPage";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const Route = createFileRoute("/")({
   beforeLoad: async () => {
@@ -25,12 +27,15 @@ function App() {
   const logoutMutation = useLogoutMutation();
 
   return (
-    <div className="p-3 flex flex-col gap-4">
-      <div className={clsx("text-center", colors.mainText)}>
-        <button onClick={() => logoutMutation.mutate()}>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <div className="p-3 flex flex-col gap-4">
+        <TodoPage />
+        <div className={clsx("text-center", colors.mainText)}>
+          {/* <button onClick={() => logoutMutation.mutate()}>
           {logoutMutation.isPending ? "Logging Out" : "Logout"}
-        </button>
+          </button> */}
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }

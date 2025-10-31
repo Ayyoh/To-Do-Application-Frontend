@@ -1,4 +1,4 @@
-import { logoutUser } from "@/features/-auth/api/api";
+import { logoutUser } from "@/features/-auth/api/userApi";
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 

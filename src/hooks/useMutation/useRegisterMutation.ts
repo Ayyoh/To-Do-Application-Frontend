@@ -1,4 +1,4 @@
-import { registerUser, type registerUserInput } from "@/features/-auth/api/api";
+import { registerUser, type registerUserInput } from "@/features/-auth/api/userApi";
 import { QueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import toast from "react-hot-toast";
