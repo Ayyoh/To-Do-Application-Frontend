@@ -13,6 +13,7 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -27,7 +28,7 @@ const mockData = [
 ];
 
 export default function TodoPage() {
-  const [completed, setCompleted] = useState(0)
+  const [completed, setCompleted] = useState(0);
 
   return (
     <SidebarProvider>
@@ -42,9 +43,7 @@ export default function TodoPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">
-                  Create your tasks
-                </BreadcrumbLink>
+                <BreadcrumbLink href="#">Create your tasks</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>

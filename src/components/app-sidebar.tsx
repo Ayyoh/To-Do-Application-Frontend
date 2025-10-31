@@ -13,6 +13,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { ModeToggle } from "./mode-toggle";
 import { Folder } from "lucide-react";
@@ -22,14 +23,21 @@ import { useGetFoldersQuery } from "@/hooks/useQuery/useFoldersQuery";
 import { Link } from "@tanstack/react-router";
 
 import { Route as FolderRoute } from "@/routes/folders/$folderId";
+import { useCreateFolderMutation } from "@/hooks/useMutation/useCreateFolderMutation";
+import { AppDrawer } from "./app-drawer";
 
 // This is sample data.
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const logoutMutation = useLogoutMutation();
-  const { data: folders } = useGetFoldersQuery();
+  const createFolderMutation = useCreateFolderMutation();
 
+  const { data: folders } = useGetFoldersQuery();
   const [active, setActive] = React.useState(false);
+
+  const handleCreateFolder = async () => {
+    await createFolderMutation;
+  };
 
   return (
     <Sidebar {...props}>
@@ -53,8 +61,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
 
         <SidebarGroupContent className="">
-          <SidebarGroupLabel className="text-sm font-quicksand font-semibold">
-            Folders
+          <SidebarGroupLabel className="text-sm font-quicksand font-semibold flex justify-between">
+            <h1>Folders</h1>
+
+            <AppDrawer />
           </SidebarGroupLabel>
           {!folders ? (
             <p className="text-xs text-gray-500">Loading folders...</p>
