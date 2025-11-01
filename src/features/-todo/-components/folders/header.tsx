@@ -7,7 +7,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
@@ -18,24 +17,16 @@ import { useGetFoldersQuery } from "@/hooks/useQuery/useFoldersQuery";
 import { Trash2 } from "lucide-react";
 
 import { Route as FolderRoute } from "@/routes/folders/$folderId";
-import { useQuery } from "@tanstack/react-query";
-import { getAllFolders } from "../../api/foldersApi";
 import { useParams } from "@tanstack/react-router";
-
-const mockData = [
-  {
-    id: 1,
-    title: "Computer Science Alg-1",
-    description: "Computer Science Algorithm 1",
-    completed: false,
-  },
-];
+import { useGetTodoQuery } from "@/hooks/useQuery/useTodoQuery";
+import type { Todo } from "../../api/todoApi";
 
 function Header() {
   const { folderId } = useParams({ from: FolderRoute.id });
   const { data: folders } = useGetFoldersQuery();
-
   const folder = folders?.find((f: any) => f.id === Number(folderId));
+
+  const { data: todos } = useGetTodoQuery(Number(folderId));
 
   return (
     <SidebarProvider>
@@ -64,24 +55,26 @@ function Header() {
 
         <div className="flex flex-1 flex-col gap-4 p-4">
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            {mockData.map((data, i) => (
-              <div
-                className="bg-muted/50 aspect-video rounded-xl p-4 flex flex-col gap-2"
-                key={i}
-              >
-                <div className="flex flex-row items-center justify-between">
-                  <span className="font-quicksand font-semibold">
-                    {data.title}
+            {Array.isArray(todos) && todos.length > 0 ? (
+              todos.map((todo: Todo) => (
+                <div
+                  key={todo.id}
+                  className="bg-muted/50 aspect-video rounded-xl p-4 flex flex-col gap-2"
+                >
+                  <div className="flex flex-row items-center justify-between">
+                    <span className="font-quicksand font-semibold">
+                      {todo.title}
+                    </span>
+                    <Trash2 size={16} className="text-red-500" />
+                  </div>
+                  <span className="font-quicksand text-[#B6B6B7]">
+                    {todo.description}
                   </span>
-
-                  <Trash2 size={16} className="text-red-500" />
                 </div>
-
-                <span className="font-quicksand text-[#B6B6B7]">
-                  {data.description}
-                </span>
-              </div>
-            ))}
+              ))
+            ) : (
+              <div className="text-center text-muted">No tasks yet</div>
+            )}{" "}
           </div>
         </div>
       </SidebarInset>

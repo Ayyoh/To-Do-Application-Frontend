@@ -16,3 +16,9 @@ export async function createFolder(input: createFolderInput) {
 
   return res.data;
 }
+
+export async function deleteFolder(folderId: number) {
+  const res = await api.delete(`/folders/remove-folder/${folderId}`);
+
+  return res.data;
+}

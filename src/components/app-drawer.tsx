@@ -44,7 +44,7 @@ export function AppDrawer() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline">Open Drawer</Button>
+        <Button variant="outline">Create</Button>
       </DrawerTrigger>
 
       <DrawerContent>

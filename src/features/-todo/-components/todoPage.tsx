@@ -15,19 +15,19 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useGetTodoQuery } from "@/hooks/useQuery/useTodoQuery";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useParams } from "@tanstack/react-router";
+import type { Todo } from "../api/todoApi";
 
-const mockData = [
-  {
-    id: 1,
-    title: "Computer Science Alg-1",
-    description: "Computer Science Algorithm 1",
-    completed: false,
-  },
-];
+type TodoPageProps = {
+  folderId?: number;
+};
 
-export default function TodoPage() {
+export default function TodoPage({ folderId }: TodoPageProps) {
+  const { data: todos } = useGetTodoQuery(Number(folderId));
+
   const [completed, setCompleted] = useState(0);
 
   return (
@@ -58,24 +58,26 @@ export default function TodoPage() {
         <div className="flex flex-1 flex-col gap-4 p-4">
           <Progress value={completed} />
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            {mockData.map((data, i) => (
-              <div
-                className="bg-muted/50 aspect-video rounded-xl p-4 flex flex-col gap-2"
-                key={i}
-              >
-                <div className="flex flex-row items-center justify-between">
-                  <span className="font-quicksand font-semibold">
-                    {data.title}
+            {Array.isArray(todos) && todos.length > 0 ? (
+              todos.map((todo: Todo) => (
+                <div
+                  key={todo.id}
+                  className="bg-muted/50 aspect-video rounded-xl p-4 flex flex-col gap-2"
+                >
+                  <div className="flex flex-row items-center justify-between">
+                    <span className="font-quicksand font-semibold">
+                      {todo.title}
+                    </span>
+                    <Trash2 size={16} className="text-red-500" />
+                  </div>
+                  <span className="font-quicksand text-[#B6B6B7]">
+                    {todo.description}
                   </span>
-
-                  <Trash2 size={16} className="text-red-500" />
                 </div>
-
-                <span className="font-quicksand text-[#B6B6B7]">
-                  {data.description}
-                </span>
-              </div>
-            ))}
+              ))
+            ) : (
+              <div className="text-center text-muted">No tasks yet</div>
+            )}{" "}
           </div>
         </div>
       </SidebarInset>
