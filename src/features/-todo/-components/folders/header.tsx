@@ -24,9 +24,9 @@ import type { Todo } from "../../api/todoApi";
 function Header() {
   const { folderId } = useParams({ from: FolderRoute.id });
   const { data: folders } = useGetFoldersQuery();
-  const folder = folders?.find((f: any) => f.id === Number(folderId));
-
   const { data: todos } = useGetTodoQuery(Number(folderId));
+
+  const folder = folders?.find((f: any) => f.id === Number(folderId));
 
   return (
     <SidebarProvider>
@@ -67,6 +67,7 @@ function Header() {
                     </span>
                     <Trash2 size={16} className="text-red-500" />
                   </div>
+
                   <span className="font-quicksand text-[#B6B6B7]">
                     {todo.description}
                   </span>

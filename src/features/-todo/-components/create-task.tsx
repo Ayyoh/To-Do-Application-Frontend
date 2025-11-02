@@ -3,20 +3,12 @@
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "./ui/dialog";
-import CreateFolderForm from "./create-folder-form";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import CreateTaskForm from "./create-task-form";
 
-export function AppDrawer() {
+export function CreateTask() {
   const [open, setOpen] = React.useState(false);
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -27,7 +19,7 @@ export function AppDrawer() {
           <Button variant="outline">Create</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
-          <CreateFolderForm open={open} setOpen={setOpen} />
+          <CreateTaskForm open={open} setOpen={setOpen} />
         </DialogContent>
       </Dialog>
     );
@@ -40,7 +32,7 @@ export function AppDrawer() {
       </DrawerTrigger>
 
       <DrawerContent>
-        <CreateFolderForm open={open} setOpen={setOpen} />
+        <CreateTaskForm open={open} setOpen={setOpen} />
       </DrawerContent>
     </Drawer>
   );
