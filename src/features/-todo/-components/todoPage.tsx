@@ -42,7 +42,6 @@ export default function TodoPage({ folderId }: TodoPageProps) {
     );
   };
 
-  // ✅ Calculate progress
   const total = todos.length;
   const done = completed.length;
   const progress = total === 0 ? 0 : (done / total) * 100;
