@@ -1,11 +1,11 @@
 import { registerUser, type registerUserInput } from "@/features/-auth/api/userApi";
 import { QueryClient, useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useRouter } from "@tanstack/react-router";
 import toast from "react-hot-toast";
 
 export function useRegisterMutation() {
   const queryClient = new QueryClient();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return useMutation({
     mutationFn: (input: registerUserInput) => registerUser(input),
@@ -19,7 +19,7 @@ export function useRegisterMutation() {
         queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
       }
 
-      navigate({ to: "/" });
+      router.navigate({ to: "/" });
     },
     onError: (error: any) => {
       const message = error.response.data.error || "Registration failed";

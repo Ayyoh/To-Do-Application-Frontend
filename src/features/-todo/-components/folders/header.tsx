@@ -20,11 +20,14 @@ import { Route as FolderRoute } from "@/routes/folders/$folderId";
 import { useParams } from "@tanstack/react-router";
 import { useGetTodoQuery } from "@/hooks/useQuery/useTodoQuery";
 import type { Todo } from "../../api/todoApi";
+import { Button } from "@/components/ui/button";
+import { useDeleteTodoMutation } from "@/hooks/useMutation/useDeleteTodoMutation";
 
 function Header() {
   const { folderId } = useParams({ from: FolderRoute.id });
   const { data: folders } = useGetFoldersQuery();
   const { data: todos } = useGetTodoQuery(Number(folderId));
+  const deleteTodoMutation = useDeleteTodoMutation();
 
   const folder = folders?.find((f: any) => f.id === Number(folderId));
 
@@ -65,7 +68,13 @@ function Header() {
                     <span className="font-quicksand font-semibold">
                       {todo.title}
                     </span>
-                    <Trash2 size={16} className="text-red-500" />
+                    <Button
+                      variant="secondary"
+                      onClick={() => deleteTodoMutation.mutate(todo.id)}
+                      className=""
+                    >
+                      <Trash2 size={16} className="text-red-500" />
+                    </Button>{" "}
                   </div>
 
                   <span className="font-quicksand text-[#B6B6B7]">

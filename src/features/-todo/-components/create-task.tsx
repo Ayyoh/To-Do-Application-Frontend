@@ -16,7 +16,9 @@ export function CreateTask() {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">Create</Button>
+          <Button variant="outline" className="w-full">
+            Add a task
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <CreateTaskForm open={open} setOpen={setOpen} />
@@ -28,7 +30,9 @@ export function CreateTask() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline">Create</Button>
+        <Button variant="outline" className="w-full">
+          Add a task
+        </Button>
       </DrawerTrigger>
 
       <DrawerContent>

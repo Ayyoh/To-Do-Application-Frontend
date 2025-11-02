@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import CreateFolderForm from "./create-folder-form";
+import { Plus } from "lucide-react";
 
 export function AppDrawer() {
   const [open, setOpen] = React.useState(false);
@@ -24,7 +25,9 @@ export function AppDrawer() {
     return (
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">Create</Button>
+          <Button variant="ghost">
+            <Plus size={12} />
+          </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <CreateFolderForm open={open} setOpen={setOpen} />
@@ -36,7 +39,9 @@ export function AppDrawer() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline">Create</Button>
+        <Button variant="ghost">
+          <Plus size={12} />
+        </Button>
       </DrawerTrigger>
 
       <DrawerContent>

@@ -1,7 +1,5 @@
 import * as React from "react";
 
-import { SearchForm } from "@/components/search-form";
-import { VersionSwitcher } from "@/components/version-switcher";
 import {
   Sidebar,
   SidebarContent,
@@ -9,21 +7,16 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarRail,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { ModeToggle } from "./mode-toggle";
-import { Folder, Trash2 } from "lucide-react";
+import { Folder, LogOut, Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLogoutMutation } from "@/hooks/useMutation/useLogoutMutation";
 import { useGetFoldersQuery } from "@/hooks/useQuery/useFoldersQuery";
 import { Link } from "@tanstack/react-router";
 
 import { Route as FolderRoute } from "@/routes/folders/$folderId";
-import { useCreateFolderMutation } from "@/hooks/useMutation/useCreateFolderMutation";
 import { AppDrawer } from "./app-drawer";
 import { useDeleteFolderMutation } from "@/hooks/useMutation/useDeleteFolderMutation";
 
@@ -31,7 +24,6 @@ import { useDeleteFolderMutation } from "@/hooks/useMutation/useDeleteFolderMuta
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const logoutMutation = useLogoutMutation();
-  const createFolderMutation = useCreateFolderMutation();
   const deleteFolderMutation = useDeleteFolderMutation();
 
   const { data: folders } = useGetFoldersQuery();
@@ -71,16 +63,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           ) : (
             folders.map((folder: any) => (
               <Link
-                to={FolderRoute.to}
+                to={`/folders/$folderId`}
                 params={{ folderId: folder.id }}
                 key={folder.id}
               >
                 <div className="font-quicksand font-semibold rounded-lg ml-2 p-2 flex flex-row justify-between items-center gap-2">
                   <Folder size={16} className="shrink-0" />
-                  <span className="flex-1 truncate block max-w-[140px] text-left" title={folder.folderName}>
+                  <span
+                    className="flex-1 truncate block max-w-[140px] text-left"
+                    title={folder.folderName}
+                  >
                     {folder.folderName}
                   </span>
-                  
+
                   <Button
                     onClick={() => deleteFolderMutation.mutate(folder.id)}
                     className="shrink-0"
@@ -93,19 +88,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             ))
           )}{" "}
         </SidebarGroupContent>
-
-        <SidebarGroupContent className="">
-          <SidebarGroupLabel className="text-sm font-quicksand font-semibold">
-            Settings
-          </SidebarGroupLabel>
-          <SidebarGroup>
-            <Button variant="ghost" onClick={() => logoutMutation.mutate()}>
-              {logoutMutation.isPending ? "Logging Out" : "Logout"}
-            </Button>
-          </SidebarGroup>
-        </SidebarGroupContent>
       </SidebarContent>
       <SidebarRail />
+      <SidebarGroupContent className="">
+        {/* <SidebarGroupLabel className="text-sm font-quicksand font-semibold">
+          Settings
+        </SidebarGroupLabel> */}
+        <SidebarGroup>
+          <Button variant="ghost" onClick={() => logoutMutation.mutate()}>
+            <LogOut size={12} />
+            {logoutMutation.isPending ? "Signing out..." : "Sign Out"}
+          </Button>
+        </SidebarGroup>
+      </SidebarGroupContent>
     </Sidebar>
   );
 }

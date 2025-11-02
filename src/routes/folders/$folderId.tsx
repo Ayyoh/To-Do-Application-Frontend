@@ -1,6 +1,6 @@
 import Header from "@/features/-todo/-components/folders/header";
 import { CheckAuth } from "@/lib/checkAuth";
-import { createFileRoute, redirect, useParams } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/folders/$folderId")({
   beforeLoad: async () => {

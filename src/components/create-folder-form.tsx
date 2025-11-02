@@ -43,8 +43,8 @@ function CreateFolderForm({ open, setOpen }: CreateFolderFormProps) {
     <form onSubmit={handleSubmit}>
       <div className="mx-auto w-full max-w-sm">
         <DrawerHeader>
-          <DrawerTitle>Move Goal</DrawerTitle>
-          <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+          <DrawerTitle>Add a folder</DrawerTitle>
+          <DrawerDescription>Add a folder for your todo tasks.</DrawerDescription>
         </DrawerHeader>
         <div className="m-auto w-60">
           <Input

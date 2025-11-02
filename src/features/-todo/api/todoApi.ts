@@ -33,3 +33,9 @@ export async function createTodo(input: CreateTodoInput): Promise<Todo> {
 
   return res.data as Todo;
 }
+
+export async function removeTodo(id: number) {
+  const res = await api.delete(`/todo/remove-todo/${id}`)
+
+  return res.data;
+}
