@@ -32,10 +32,6 @@ function Header() {
 
   const folder = folders?.find((f: any) => f.id === Number(folderId));
 
-  if (isLoading) {
-    return <SkeletonLoader />
-  }
-
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -63,7 +59,9 @@ function Header() {
 
         <div className="flex flex-1 flex-col gap-4 p-4">
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            {Array.isArray(todos) && todos.length > 0 ? (
+            {isLoading ? (
+              <SkeletonLoader />
+            ) : Array.isArray(todos) && todos.length > 0 ? (
               todos.map((todo: Todo) => (
                 <div
                   key={todo.id}
@@ -76,10 +74,9 @@ function Header() {
                     <Button
                       variant="secondary"
                       onClick={() => deleteTodoMutation.mutate(todo.id)}
-                      className=""
                     >
                       <Trash2 size={16} className="text-red-500" />
-                    </Button>{" "}
+                    </Button>
                   </div>
 
                   <span className="font-quicksand text-[#B6B6B7]">
@@ -89,7 +86,7 @@ function Header() {
               ))
             ) : (
               <div className="text-center text-muted">No tasks yet</div>
-            )}{" "}
+            )}
           </div>
         </div>
       </SidebarInset>
