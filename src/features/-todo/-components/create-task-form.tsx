@@ -53,7 +53,7 @@ function CreateTaskForm({ open, setOpen }: CreateTaskFormProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mx-auto w-full max-w-sm">
+      <div className="mx-auto w-full max-w-sm overflow-y-auto">
         <DrawerHeader>
           <DrawerTitle>Create Task</DrawerTitle>
           <DrawerDescription>Set your daily tasks.</DrawerDescription>
@@ -84,7 +84,7 @@ function CreateTaskForm({ open, setOpen }: CreateTaskFormProps) {
           />
 
           <SelectFolder onSelectFolder={setFolderId} defaultFolderId={null} />
-          <DrawerFooter className="sticky bottom-0 bg-background pb-[env(safe-area-inset-bottom)]">
+          <DrawerFooter>
             <Button type="submit" disabled={createTodoMutation.isPending}>
               {createTodoMutation.isPending ? "Creating..." : "Create"}
             </Button>
