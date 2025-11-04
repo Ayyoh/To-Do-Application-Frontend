@@ -17,6 +17,12 @@ function SkeletonLoader() {
         <Skeleton className="h-40 w-full rounded-lg" />
         <Skeleton className="h-40 w-full rounded-lg" />
       </div>
+      
+      <div className="hidden md:flex flex-col gap-4 flex-1">
+        <Skeleton className="h-40 w-full rounded-lg" />
+        <Skeleton className="h-40 w-full rounded-lg" />
+        <Skeleton className="h-40 w-full rounded-lg" />
+      </div>
     </div>
   );
 }
