@@ -22,14 +22,19 @@ import { useGetTodoQuery } from "@/hooks/useQuery/useTodoQuery";
 import type { Todo } from "../../api/todoApi";
 import { Button } from "@/components/ui/button";
 import { useDeleteTodoMutation } from "@/hooks/useMutation/useDeleteTodoMutation";
+import SkeletonLoader from "@/components/skeleton-loader";
 
 function Header() {
   const { folderId } = useParams({ from: FolderRoute.id });
   const { data: folders } = useGetFoldersQuery();
-  const { data: todos } = useGetTodoQuery(Number(folderId));
+  const { data: todos, isLoading } = useGetTodoQuery(Number(folderId));
   const deleteTodoMutation = useDeleteTodoMutation();
 
   const folder = folders?.find((f: any) => f.id === Number(folderId));
+
+  if (isLoading) {
+    return <SkeletonLoader />
+  }
 
   return (
     <SidebarProvider>
