@@ -14,7 +14,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { useGetFoldersQuery } from "@/hooks/useQuery/useFoldersQuery";
-import { Trash2 } from "lucide-react";
+import { Folder, Trash2 } from "lucide-react";
 
 import { Route as FolderRoute } from "@/routes/folders/$folderId";
 import { useParams } from "@tanstack/react-router";
@@ -58,36 +58,56 @@ function Header() {
         </header>
 
         <div className="flex flex-1 flex-col gap-4 p-4">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            {isLoading ? (
-              <SkeletonLoader />
-            ) : Array.isArray(todos) && todos.length > 0 ? (
-              todos.map((todo: Todo) => (
-                <div
-                  key={todo.id}
-                  className="bg-muted/50 aspect-video rounded-xl p-4 flex flex-col gap-2"
-                >
-                  <div className="flex flex-row items-center justify-between">
-                    <span className="font-quicksand font-semibold">
-                      {todo.title}
-                    </span>
-                    <Button
-                      variant="secondary"
-                      onClick={() => deleteTodoMutation.mutate(todo.id)}
-                    >
-                      <Trash2 size={16} className="text-red-500" />
-                    </Button>
-                  </div>
+          {isLoading ? (
+            <SkeletonLoader />
+          ) : (
+            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+              {Array.isArray(todos) && todos.length > 0 ? (
+                todos.map((todo: Todo) => {
+                  const folder = folders?.find(
+                    (f: any) => f.id === todo.folderId
+                  );
+                  const folderName = folder?.folderName ?? "No Folder";
 
-                  <span className="font-quicksand text-[#B6B6B7]">
-                    {todo.description}
-                  </span>
-                </div>
-              ))
-            ) : (
-              <div className="text-center text-muted">No tasks yet</div>
-            )}
-          </div>
+                  return (
+                    <div
+                      key={todo.id}
+                      className="bg-muted/50 rounded-xl p-4 flex flex-col gap-1"
+                    >
+                      <div className="flex flex-row items-center justify-between gap-2">
+                        <span
+                          className={`font-quicksand font-semibold truncate block text-left max-w-[120px]}`}
+                        >
+                          {todo.title}
+                        </span>
+
+                        <Button
+                          variant="secondary"
+                          onClick={() => deleteTodoMutation.mutate(todo.id)}
+                          className=""
+                        >
+                          <Trash2 size={16} className="text-red-500" />
+                        </Button>
+                      </div>
+
+                      <span className="font-quicksand text-[#B6B6B7] wrap-break-word whitespace-normal max-w-[210px]">
+                        {todo.description}
+                      </span>
+
+                      <div className="font-quicksand text-[#F59F0F] flex">
+                        <span className="bg-[#322A1D] border border-[#6B4C17] flex items-center gap-1 rounded-lg px-2 py-0.5 text-sm">
+                          <Folder size={12} />
+                          {folderName}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="text-center text-muted">No tasks yet</div>
+              )}{" "}
+            </div>
+          )}
         </div>
       </SidebarInset>
     </SidebarProvider>

@@ -24,13 +24,14 @@ import { useGetFoldersQuery } from "@/hooks/useQuery/useFoldersQuery";
 import { Button } from "@/components/ui/button";
 import { useDeleteTodoMutation } from "@/hooks/useMutation/useDeleteTodoMutation";
 import { Checkbox } from "@/components/ui/checkbox";
+import SkeletonLoader from "@/components/skeleton-loader";
 
 type TodoPageProps = {
   folderId?: number;
 };
 
 export default function TodoPage({ folderId }: TodoPageProps) {
-  const { data: todos = [] } = useGetTodoQuery(Number(folderId));
+  const { data: todos = [], isLoading } = useGetTodoQuery(Number(folderId));
   const { data: folders } = useGetFoldersQuery();
   const deleteTodoMutation = useDeleteTodoMutation();
 
@@ -94,62 +95,66 @@ export default function TodoPage({ folderId }: TodoPageProps) {
             </div>
           </div>
 
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            {Array.isArray(todos) && todos.length > 0 ? (
-              todos.map((todo: Todo) => {
-                const folder = folders?.find(
-                  (f: any) => f.id === todo.folderId
-                );
-                const folderName = folder?.folderName ?? "No Folder";
-                const isDone = completed.includes(todo.id);
+          {isLoading ? (
+            <SkeletonLoader />
+          ) : (
+            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+              {Array.isArray(todos) && todos.length > 0 ? (
+                todos.map((todo: Todo) => {
+                  const folder = folders?.find(
+                    (f: any) => f.id === todo.folderId
+                  );
+                  const folderName = folder?.folderName ?? "No Folder";
+                  const isDone = completed.includes(todo.id);
 
-                return (
-                  <div
-                    key={todo.id}
-                    className="bg-muted/50 rounded-xl p-4 flex flex-col gap-1"
-                  >
-                    <div className="flex flex-row items-center justify-between gap-2">
-                      <span
-                        className={`font-quicksand font-semibold truncate block text-left max-w-[120px] ${
-                          isDone
-                            ? "line-through text-gray-400"
-                            : "text-foreground"
-                        }`}
-                      >
-                        {todo.title}
+                  return (
+                    <div
+                      key={todo.id}
+                      className="bg-muted/50 rounded-xl p-4 flex flex-col gap-1"
+                    >
+                      <div className="flex flex-row items-center justify-between gap-2">
+                        <span
+                          className={`font-quicksand font-semibold truncate block text-left max-w-[120px] ${
+                            isDone
+                              ? "line-through text-gray-400"
+                              : "text-foreground"
+                          }`}
+                        >
+                          {todo.title}
+                        </span>
+
+                        <Checkbox
+                          checked={completed.includes(todo.id)}
+                          onCheckedChange={() => handleToggle(todo.id)}
+                        />
+
+                        <Button
+                          variant="secondary"
+                          onClick={() => deleteTodoMutation.mutate(todo.id)}
+                          className=""
+                        >
+                          <Trash2 size={16} className="text-red-500" />
+                        </Button>
+                      </div>
+
+                      <span className="font-quicksand text-[#B6B6B7] wrap-break-word whitespace-normal max-w-[210px]">
+                        {todo.description}
                       </span>
 
-                      <Checkbox
-                        checked={completed.includes(todo.id)}
-                        onCheckedChange={() => handleToggle(todo.id)}
-                      />
-
-                      <Button
-                        variant="secondary"
-                        onClick={() => deleteTodoMutation.mutate(todo.id)}
-                        className=""
-                      >
-                        <Trash2 size={16} className="text-red-500" />
-                      </Button>
+                      <div className="font-quicksand text-[#F59F0F] flex">
+                        <span className="bg-[#322A1D] border border-[#6B4C17] flex items-center gap-1 rounded-lg px-2 py-0.5 text-sm">
+                          <Folder size={12} />
+                          {folderName}
+                        </span>
+                      </div>
                     </div>
-
-                    <span className="font-quicksand text-[#B6B6B7] wrap-break-word whitespace-normal max-w-[210px]">
-                      {todo.description}
-                    </span>
-
-                    <div className="font-quicksand text-[#F59F0F] flex">
-                      <span className="bg-[#322A1D] border border-[#6B4C17] flex items-center gap-1 rounded-lg px-2 py-0.5 text-sm">
-                        <Folder size={12} />
-                        {folderName}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })
-            ) : (
-              <div className="text-center text-muted">No tasks yet</div>
-            )}
-          </div>
+                  );
+                })
+              ) : (
+                <div className="text-center text-muted">No tasks yet</div>
+              )}
+            </div>
+          )}
         </div>
       </SidebarInset>
     </SidebarProvider>
