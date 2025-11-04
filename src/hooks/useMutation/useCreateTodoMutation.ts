@@ -12,7 +12,7 @@ export function useCreateTodoMutation() {
       queryClient.invalidateQueries({
         queryKey: ["todos", newTodo.folderId ?? "all"],
       });
-      toast.success("Todo Created");
+      toast.success("Created a Todo.");
     },
   });
 }
