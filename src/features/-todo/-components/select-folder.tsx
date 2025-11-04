@@ -34,7 +34,7 @@ export function SelectFolder({
       <span className="font-quicksand font-semibold">Folder</span>
 
       <Select value={selected} onValueChange={handleSelectChange}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-full">
           <SelectValue placeholder="No Folder" />
         </SelectTrigger>
 

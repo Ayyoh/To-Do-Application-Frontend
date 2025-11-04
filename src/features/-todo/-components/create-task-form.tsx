@@ -18,7 +18,7 @@ type CreateTaskFormProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function CreateTaskForm({ open, setOpen } : CreateTaskFormProps) {
+function CreateTaskForm({ open, setOpen }: CreateTaskFormProps) {
   const createTodoMutation = useCreateTodoMutation();
 
   const [folderId, setFolderId] = useState<number | null>(null);
@@ -84,15 +84,15 @@ function CreateTaskForm({ open, setOpen } : CreateTaskFormProps) {
           />
 
           <SelectFolder onSelectFolder={setFolderId} defaultFolderId={null} />
+          <DrawerFooter>
+            <Button type="submit" disabled={createTodoMutation.isPending}>
+              {createTodoMutation.isPending ? "Creating..." : "Create"}
+            </Button>
+            <DrawerClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DrawerClose>
+          </DrawerFooter>
         </div>
-        <DrawerFooter>
-          <Button type="submit" disabled={createTodoMutation.isPending}>
-            {createTodoMutation.isPending ? "Creating..." : "Create"}
-          </Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
       </div>
     </form>
   );
