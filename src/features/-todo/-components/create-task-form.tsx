@@ -53,7 +53,7 @@ function CreateTaskForm({ open, setOpen }: CreateTaskFormProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mx-auto w-full max-w-sm overflow-y-auto">
+      <div className="mx-auto w-full max-w-sm max-h-[90vh] overflow-y-auto">
         <DrawerHeader>
           <DrawerTitle>Create Task</DrawerTitle>
           <DrawerDescription>Set your daily tasks.</DrawerDescription>
