@@ -84,7 +84,7 @@ function CreateTaskForm({ open, setOpen }: CreateTaskFormProps) {
           />
 
           <SelectFolder onSelectFolder={setFolderId} defaultFolderId={null} />
-          <DrawerFooter>
+          <DrawerFooter className="sticky bottom-0 bg-background pb-[env(safe-area-inset-bottom)]">
             <Button type="submit" disabled={createTodoMutation.isPending}>
               {createTodoMutation.isPending ? "Creating..." : "Create"}
             </Button>
