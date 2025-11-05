@@ -2,6 +2,7 @@ import { createFileRoute, redirect } from "@tanstack/react-router";
 import "../App.css";
 import { CheckAuth } from "@/lib/checkAuth";
 import TodoPage from "@/features/-todo/-components/todoPage";
+import InstallPWAButton from "@/components/installPrompt";
 
 export const Route = createFileRoute("/")({
   beforeLoad: async () => {
@@ -20,6 +21,7 @@ function App() {
   return (
     <div className="p-3 flex flex-col gap-4">
       <TodoPage />
+      <InstallPWAButton />
     </div>
   );
 }
