@@ -3,7 +3,7 @@
   "name": "Task Vault",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "TaskVault.png",
       "sizes": "64x64",
       "type": "image/x-icon"
     },
