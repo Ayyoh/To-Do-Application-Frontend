@@ -53,6 +53,7 @@ reportWebVitals();
 
 // Register service worker for PWA
 // Only register service worker in production
+// Register service worker only in production
 if (import.meta.env.PROD && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
