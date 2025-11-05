@@ -52,7 +52,7 @@ if (rootElement && !rootElement.innerHTML) {
 reportWebVitals();
 
 // Register service worker for PWA
-if ("serviceWorker" in navigator) {
+if (import.meta.env.PROD && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
       .register("/service-worker.js")
@@ -64,4 +64,3 @@ if ("serviceWorker" in navigator) {
       });
   });
 }
-
