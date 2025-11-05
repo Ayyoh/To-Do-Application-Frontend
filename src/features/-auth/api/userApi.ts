@@ -26,7 +26,7 @@ export async function registerUser(input: registerUserInput) {
 }
 
 export async function logoutUser() {
-  const res = await api.post("/users/logout");
+  const res = await api.delete("/users/logout");
 
   return res.data;
 }
