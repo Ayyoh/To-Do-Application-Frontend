@@ -1,5 +1,5 @@
 // Name your cache and version it
-const CACHE_NAME = "task-vault-cache-v1";
+const CACHE_NAME = "task-vault-cache-v2";
 
 // List of assets to cache immediately on install
 const ASSETS_TO_CACHE = [
@@ -9,6 +9,7 @@ const ASSETS_TO_CACHE = [
   "/favicon.ico",
   "/logo192.png",
   "/logo512.png",
+  "/TaskVault.png"
 ];
 
 // --- Install Service Worker ---
