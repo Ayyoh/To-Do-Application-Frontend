@@ -5,6 +5,7 @@ const CACHE_NAME = "task-vault-cache-v2";
 const ASSETS_TO_CACHE = [
   "/",
   "/index.html",
+  "/offline.html",
   "/manifest.json",
   "/favicon.ico",
   "/logo192.png",
